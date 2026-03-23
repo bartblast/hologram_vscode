@@ -1,0 +1,61 @@
+{
+  "name": "hologram",
+  "displayName": "Hologram",
+  "description": "Official Hologram framework support for VS Code",
+  "version": "0.1.0",
+  "publisher": "bartblast",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "holo",
+        "aliases": [
+          "HOLO",
+          "holo"
+        ],
+        "extensions": [
+          ".holo"
+        ],
+        "configuration": "./language_configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "holo",
+        "scopeName": "text.holo",
+        "path": "./syntaxes/holo.tmLanguage.json",
+        "embeddedLanguages": {
+          "source.elixir": "elixir",
+          "source.js": "javascript",
+          "source.css": "css"
+        }
+      },
+      {
+        "scopeName": "text.holo.injection",
+        "path": "./syntaxes/holo_injection.tmLanguage.json",
+        "injectTo": [
+          "source.elixir"
+        ],
+        "embeddedLanguages": {
+          "text.holo": "holo",
+          "source.elixir": "elixir",
+          "source.js": "javascript",
+          "source.css": "css"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "test": "mocha test/**/*.test.js"
+  },
+  "devDependencies": {
+    "mocha": "^11.1.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.1.0"
+  }
+}
