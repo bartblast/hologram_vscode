@@ -1,0 +1,12 @@
+{
+  "scopeName": "source.elixir",
+  "patterns": [
+    { "include": "#number" }
+  ],
+  "repository": {
+    "number": {
+      "match": "\\b\\d+(\\.\\d+)?\\b",
+      "name": "constant.numeric.elixir"
+    }
+  }
+}
