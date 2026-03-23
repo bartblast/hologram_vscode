@@ -1,5 +1,26 @@
 {
   "scopeName": "text.holo",
-  "patterns": [],
-  "repository": {}
+  "patterns": [
+    { "include": "#tag_open" }
+  ],
+  "repository": {
+    "tag_open": {
+      "begin": "(<)([a-z][a-z0-9-]*)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.tag.begin.holo" },
+        "2": { "name": "entity.name.tag.holo" }
+      },
+      "end": "(/>|>)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.tag.end.holo" }
+      },
+      "name": "meta.tag.holo",
+      "patterns": [
+        { "include": "#tag_innards" }
+      ]
+    },
+    "tag_innards": {
+      "patterns": []
+    }
+  }
 }
