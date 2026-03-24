@@ -422,4 +422,49 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("expression in attribute string", () => {
+    it("expression inside quoted attribute", async () => {
+      const tokens = await tokenize('<div class="item_{n}">');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "class", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
+        { text: "item_", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "n", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("expression with surrounding text", async () => {
+      const tokens = await tokenize('<div id="prefix_{@id}_suffix">');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
+        { text: "prefix_", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "@id", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        { text: "_suffix", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

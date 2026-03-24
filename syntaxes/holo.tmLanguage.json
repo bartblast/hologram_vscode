@@ -53,7 +53,10 @@
       "endCaptures": {
         "0": { "name": "punctuation.definition.string.end.holo" }
       },
-      "name": "string.quoted.double.holo"
+      "name": "string.quoted.double.holo",
+      "patterns": [
+        { "include": "#expression" }
+      ]
     },
     "comment": {
       "begin": "<!--",
