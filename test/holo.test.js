@@ -626,4 +626,22 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("block_for_open", () => {
+    it("for with generator expression", async () => {
+      const tokens = await tokenize("{%for item <- @items}");
+
+      const expected = [
+        { text: "{%", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
+        { text: "for", scopes: ["text.holo", "meta.block.for.holo", "keyword.control.for.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.block.for.holo"] },
+        { text: "item", scopes: ["text.holo", "meta.block.for.holo", "variable.other.elixir"] },
+        { text: " <- ", scopes: ["text.holo", "meta.block.for.holo"] },
+        { text: "@items", scopes: ["text.holo", "meta.block.for.holo", "variable.other.attribute.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
