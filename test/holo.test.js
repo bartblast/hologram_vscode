@@ -542,4 +542,44 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("attribute_name_event", () => {
+    it("click event with text value", async () => {
+      const tokens = await tokenize('<button $click="action">');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "button", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "$", scopes: ["text.holo", "meta.tag.holo", "keyword.operator.event.holo"] },
+        { text: "click", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.event.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
+        { text: "action", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("submit event", async () => {
+      const tokens = await tokenize('<form $submit="handle_submit">');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "form", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "$", scopes: ["text.holo", "meta.tag.holo", "keyword.operator.event.holo"] },
+        { text: "submit", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.event.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
+        { text: "handle_submit", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

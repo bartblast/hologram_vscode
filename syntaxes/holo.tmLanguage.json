@@ -40,6 +40,7 @@
     },
     "tag_innards": {
       "patterns": [
+        { "include": "#attribute_name_event" },
         { "include": "#attribute_name" },
         { "include": "#attribute_equals" },
         { "include": "#attribute_value_double" },
@@ -97,6 +98,13 @@
         "0": { "name": "punctuation.definition.comment.end.holo" }
       },
       "name": "comment.block.holo"
+    },
+    "attribute_name_event": {
+      "match": "(\\$)([a-zA-Z][a-zA-Z0-9_]*)",
+      "captures": {
+        "1": { "name": "keyword.operator.event.holo" },
+        "2": { "name": "entity.other.attribute-name.event.holo" }
+      }
     },
     "expression": {
       "begin": "\\{",
