@@ -1,5 +1,5 @@
 pre-commit:
   parallel: true
   commands:
-    check_formatting:
+    check_formatting_and_lint:
       run: npx biome check
