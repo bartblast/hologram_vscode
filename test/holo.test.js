@@ -658,4 +658,22 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("block_raw", () => {
+    it("inner template syntax is not processed", async () => {
+      const tokens = await tokenize("{%raw}{%if false}{@var}{/raw}");
+
+      const expected = [
+        { text: "{%", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
+        { text: "raw", scopes: ["text.holo", "meta.block.raw.holo", "keyword.control.raw.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
+        { text: "{%if false}{@var}", scopes: ["text.holo", "meta.block.raw.holo", "string.unquoted.raw.holo"] },
+        { text: "{/", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
+        { text: "raw", scopes: ["text.holo", "meta.block.raw.holo", "keyword.control.raw.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
