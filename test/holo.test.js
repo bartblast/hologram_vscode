@@ -299,4 +299,47 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("expression", () => {
+    it("simple expression with number", async () => {
+      const tokens = await tokenize("{1 + 2}");
+
+      const expected = [
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "1", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        { text: " + ", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "2", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("state variable reference", async () => {
+      const tokens = await tokenize("{@name}");
+
+      const expected = [
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "@name", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("function call", async () => {
+      const tokens = await tokenize("{inspect(@result)}");
+
+      const expected = [
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "inspect", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: "(", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "@result", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
+        { text: ")", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

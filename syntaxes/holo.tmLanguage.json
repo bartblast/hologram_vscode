@@ -4,6 +4,7 @@
     { "include": "#comment" },
     { "include": "#doctype" },
     { "include": "#escape_sequence" },
+    { "include": "#expression" },
     { "include": "#tag_open" },
     { "include": "#tag_close" }
   ],
@@ -63,6 +64,29 @@
         "0": { "name": "punctuation.definition.comment.end.holo" }
       },
       "name": "comment.block.holo"
+    },
+    "expression": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.embedded.begin.holo" }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.embedded.end.holo" }
+      },
+      "name": "meta.embedded.expression.holo",
+      "patterns": [
+        { "include": "#expression_innards" },
+        { "include": "source.elixir" }
+      ]
+    },
+    "expression_innards": {
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [
+        { "include": "#expression_innards" },
+        { "include": "source.elixir" }
+      ]
     },
     "escape_sequence": {
       "match": "\\\\[{}#$]",
