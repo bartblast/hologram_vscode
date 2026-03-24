@@ -1,18 +1,18 @@
-const assert = require("assert");
-const fs = require("fs");
-const path = require("path");
+const assert = require("node:assert");
+const fs = require("node:fs");
+const path = require("node:path");
 const vsctm = require("vscode-textmate");
 const oniguruma = require("vscode-oniguruma");
 
 const wasmBin = fs.readFileSync(
-  path.join(__dirname, "../node_modules/vscode-oniguruma/release/onig.wasm")
+  path.join(__dirname, "../node_modules/vscode-oniguruma/release/onig.wasm"),
 );
 
 const grammars = {
   "text.holo": path.join(__dirname, "../syntaxes/holo.tmLanguage.json"),
   "text.holo.injection": path.join(
     __dirname,
-    "../syntaxes/holo_injection.tmLanguage.json"
+    "../syntaxes/holo_injection.tmLanguage.json",
   ),
   "source.elixir": path.join(__dirname, "grammars/elixir.tmLanguage.json"),
 };
@@ -73,18 +73,120 @@ describe("HOLO injection grammar", () => {
       const tokens = await tokenize('~HOLO"""\n<div>{@name}</div>\n"""');
 
       const expected = [
-        { text: "~HOLO", scopes: ["source.elixir", "meta.embedded.holo.elixir", "keyword.operator.sigil.elixir"] },
-        { text: '"""', scopes: ["source.elixir", "meta.embedded.holo.elixir", "punctuation.definition.string.begin.elixir"] },
-        { text: "<", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-        { text: "{", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@name", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: "</", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-        { text: '"""', scopes: ["source.elixir", "meta.embedded.holo.elixir", "punctuation.definition.string.end.elixir"] },
+        {
+          text: "~HOLO",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "keyword.operator.sigil.elixir",
+          ],
+        },
+        {
+          text: '"""',
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "punctuation.definition.string.begin.elixir",
+          ],
+        },
+        {
+          text: "<",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: "{",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "@name",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
+        {
+          text: "</",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: '"""',
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "punctuation.definition.string.end.elixir",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -96,16 +198,94 @@ describe("HOLO injection grammar", () => {
       const tokens = await tokenize('~HOLO"<div>content</div>"');
 
       const expected = [
-        { text: "~HOLO", scopes: ["source.elixir", "meta.embedded.holo.elixir", "keyword.operator.sigil.elixir"] },
-        { text: '"', scopes: ["source.elixir", "meta.embedded.holo.elixir", "punctuation.definition.string.begin.elixir"] },
-        { text: "<", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-        { text: "content", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo"] },
-        { text: "</", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-        { text: '"', scopes: ["source.elixir", "meta.embedded.holo.elixir", "punctuation.definition.string.end.elixir"] },
+        {
+          text: "~HOLO",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "keyword.operator.sigil.elixir",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "punctuation.definition.string.begin.elixir",
+          ],
+        },
+        {
+          text: "<",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: "content",
+          scopes: ["source.elixir", "meta.embedded.holo.elixir", "text.holo"],
+        },
+        {
+          text: "</",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "source.elixir",
+            "meta.embedded.holo.elixir",
+            "punctuation.definition.string.end.elixir",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);

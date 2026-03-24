@@ -1,4 +1,4 @@
-const assert = require("assert");
+const assert = require("node:assert");
 const { tokenize } = require("./tokenization_helper");
 
 describe("HOLO grammar", () => {
@@ -6,9 +6,7 @@ describe("HOLO grammar", () => {
     it("with the top-level scope", async () => {
       const tokens = await tokenize("hello world");
 
-      const expected = [
-        { text: "hello world", scopes: ["text.holo"] },
-      ];
+      const expected = [{ text: "hello world", scopes: ["text.holo"] }];
 
       assert.deepStrictEqual(tokens, expected);
     });
@@ -19,9 +17,26 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<div>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -31,10 +46,27 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<br />");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "br", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "br",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "/>", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "/>",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -44,9 +76,26 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<foo-bar>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "foo-bar", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "foo-bar",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -58,9 +107,26 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("</div>");
 
       const expected = [
-        { text: "</", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "</",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -70,9 +136,26 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("</foo-bar>");
 
       const expected = [
-        { text: "</", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "foo-bar", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "</",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "foo-bar",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -84,11 +167,35 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<div id>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -98,11 +205,35 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<div aria-modal>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "aria-modal", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "aria-modal",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -111,14 +242,38 @@ describe("HOLO grammar", () => {
 
   describe("attribute_equals", () => {
     it("works", async () => {
-      const tokens = await tokenize('<div id=');
+      const tokens = await tokenize("<div id=");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -130,15 +285,65 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<div id="test">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "test", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "test",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -148,15 +353,65 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<div class="foo bar">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "class", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "foo bar", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "class",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "foo bar",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -166,21 +421,104 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<div id="test" class="foo">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "test", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "test",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "class", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "foo", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "class",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "foo",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -192,11 +530,39 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<!DOCTYPE html>");
 
       const expected = [
-        { text: "<!", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "DOCTYPE", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "entity.name.tag.doctype.holo"] },
+        {
+          text: "<!",
+          scopes: [
+            "text.holo",
+            "meta.tag.metadata.doctype.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "DOCTYPE",
+          scopes: [
+            "text.holo",
+            "meta.tag.metadata.doctype.holo",
+            "entity.name.tag.doctype.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.metadata.doctype.holo"] },
-        { text: "html", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "string.unquoted.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "html",
+          scopes: [
+            "text.holo",
+            "meta.tag.metadata.doctype.holo",
+            "string.unquoted.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.metadata.doctype.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -208,9 +574,23 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<!-- my comment -->");
 
       const expected = [
-        { text: "<!--", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.begin.holo"] },
+        {
+          text: "<!--",
+          scopes: [
+            "text.holo",
+            "comment.block.holo",
+            "punctuation.definition.comment.begin.holo",
+          ],
+        },
         { text: " my comment ", scopes: ["text.holo", "comment.block.holo"] },
-        { text: "-->", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.end.holo"] },
+        {
+          text: "-->",
+          scopes: [
+            "text.holo",
+            "comment.block.holo",
+            "punctuation.definition.comment.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -220,10 +600,24 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<!-- line one\nline two -->");
 
       const expected = [
-        { text: "<!--", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.begin.holo"] },
+        {
+          text: "<!--",
+          scopes: [
+            "text.holo",
+            "comment.block.holo",
+            "punctuation.definition.comment.begin.holo",
+          ],
+        },
         { text: " line one", scopes: ["text.holo", "comment.block.holo"] },
         { text: "line two ", scopes: ["text.holo", "comment.block.holo"] },
-        { text: "-->", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.end.holo"] },
+        {
+          text: "-->",
+          scopes: [
+            "text.holo",
+            "comment.block.holo",
+            "punctuation.definition.comment.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -235,7 +629,10 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("\\{");
 
       const expected = [
-        { text: "\\{", scopes: ["text.holo", "constant.character.escape.holo"] },
+        {
+          text: "\\{",
+          scopes: ["text.holo", "constant.character.escape.holo"],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -245,7 +642,10 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("\\}");
 
       const expected = [
-        { text: "\\}", scopes: ["text.holo", "constant.character.escape.holo"] },
+        {
+          text: "\\}",
+          scopes: ["text.holo", "constant.character.escape.holo"],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -255,7 +655,10 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("\\#");
 
       const expected = [
-        { text: "\\#", scopes: ["text.holo", "constant.character.escape.holo"] },
+        {
+          text: "\\#",
+          scopes: ["text.holo", "constant.character.escape.holo"],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -265,7 +668,10 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("\\$");
 
       const expected = [
-        { text: "\\$", scopes: ["text.holo", "constant.character.escape.holo"] },
+        {
+          text: "\\$",
+          scopes: ["text.holo", "constant.character.escape.holo"],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -277,11 +683,39 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{1 + 2}");
 
       const expected = [
-        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "1", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "1",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "constant.numeric.elixir",
+          ],
+        },
         { text: " + ", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "2", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        {
+          text: "2",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "constant.numeric.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -291,14 +725,45 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{%Version{major: 1}}");
 
       const expected = [
-        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "%Version", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "%Version",
+          scopes: ["text.holo", "meta.embedded.expression.holo"],
+        },
         { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "major", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        {
+          text: "major",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.elixir",
+          ],
+        },
         { text: ": ", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "1", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        {
+          text: "1",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "constant.numeric.elixir",
+          ],
+        },
         { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -308,36 +773,126 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{%{a: %{b: 1}}}");
 
       const expected = [
-        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
         { text: "%", scopes: ["text.holo", "meta.embedded.expression.holo"] },
         { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "a", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        {
+          text: "a",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.elixir",
+          ],
+        },
         { text: ": %", scopes: ["text.holo", "meta.embedded.expression.holo"] },
         { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "b", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        {
+          text: "b",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.elixir",
+          ],
+        },
         { text: ": ", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "1", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        {
+          text: "1",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "constant.numeric.elixir",
+          ],
+        },
         { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo"] },
         { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
     });
 
     it("as attribute value", async () => {
-      const tokens = await tokenize('<div value={@text}>');
+      const tokens = await tokenize("<div value={@text}>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "value", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "{", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@text", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "value",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "@text",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -347,18 +902,95 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<div id="prefix_{@id}">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "prefix_", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@id", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "prefix_",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "@id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -368,18 +1000,95 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<div id="{@id}_suffix">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@id", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: "_suffix", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "@id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
+        {
+          text: "_suffix",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -389,19 +1098,99 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<div id="prefix_{@id}_suffix">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "div",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "prefix_", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@id", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: "_suffix", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "prefix_",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "@id",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
+        {
+          text: "_suffix",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -413,9 +1202,30 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<MyComponent>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "MyComponent",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.name.type.component.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -425,15 +1235,73 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<MyComponent prop="value">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "MyComponent",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.name.type.component.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
-        { text: "prop", scopes: ["text.holo", "meta.tag.component.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "value", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "prop",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.other.attribute-name.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "value",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "string.quoted.double.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -443,10 +1311,31 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<MyComponent />");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "MyComponent",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.name.type.component.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
-        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "/>",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -456,10 +1345,31 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<Aaa.Bbb />");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "Aaa.Bbb", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "Aaa.Bbb",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.name.type.component.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
-        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "/>",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -469,10 +1379,31 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<Aaa.Bbb.Ccc />");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "Aaa.Bbb.Ccc", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "Aaa.Bbb.Ccc",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.name.type.component.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
-        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "/>",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -484,9 +1415,30 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("</MyComponent>");
 
       const expected = [
-        { text: "</", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "</",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "MyComponent",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "entity.name.type.component.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.component.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -498,21 +1450,73 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize('<button $click="action">');
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "button", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "button",
+          scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"],
+        },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "$", scopes: ["text.holo", "meta.tag.holo", "keyword.operator.event.holo"] },
-        { text: "click", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.event.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "action", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "$",
+          scopes: ["text.holo", "meta.tag.holo", "keyword.operator.event.holo"],
+        },
+        {
+          text: "click",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "entity.other.attribute-name.event.holo",
+          ],
+        },
+        {
+          text: "=",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.separator.key-value.holo",
+          ],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.begin.holo",
+          ],
+        },
+        {
+          text: "action",
+          scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"],
+        },
+        {
+          text: '"',
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "string.quoted.double.holo",
+            "punctuation.definition.string.end.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.tag.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
     });
-
   });
 
   describe("block_if_open", () => {
@@ -520,11 +1524,39 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{%if @show}");
 
       const expected = [
-        { text: "{%", scopes: ["text.holo", "meta.block.if.holo", "punctuation.definition.keyword.holo"] },
-        { text: "if", scopes: ["text.holo", "meta.block.if.holo", "keyword.control.if.holo"] },
+        {
+          text: "{%",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "if",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "keyword.control.if.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.block.if.holo"] },
-        { text: "@show", scopes: ["text.holo", "meta.block.if.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.block.if.holo", "punctuation.definition.keyword.holo"] },
+        {
+          text: "@show",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -536,9 +1568,30 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{/if}");
 
       const expected = [
-        { text: "{/", scopes: ["text.holo", "meta.block.if.holo", "punctuation.definition.keyword.holo"] },
-        { text: "if", scopes: ["text.holo", "meta.block.if.holo", "keyword.control.if.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.block.if.holo", "punctuation.definition.keyword.holo"] },
+        {
+          text: "{/",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "if",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "keyword.control.if.holo",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.if.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -550,9 +1603,30 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{%else}");
 
       const expected = [
-        { text: "{%", scopes: ["text.holo", "meta.block.else.holo", "punctuation.definition.keyword.holo"] },
-        { text: "else", scopes: ["text.holo", "meta.block.else.holo", "keyword.control.else.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.block.else.holo", "punctuation.definition.keyword.holo"] },
+        {
+          text: "{%",
+          scopes: [
+            "text.holo",
+            "meta.block.else.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "else",
+          scopes: [
+            "text.holo",
+            "meta.block.else.holo",
+            "keyword.control.else.holo",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.else.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -564,13 +1638,44 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{%for item <- @items}");
 
       const expected = [
-        { text: "{%", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
-        { text: "for", scopes: ["text.holo", "meta.block.for.holo", "keyword.control.for.holo"] },
+        {
+          text: "{%",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "for",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "keyword.control.for.holo",
+          ],
+        },
         { text: " ", scopes: ["text.holo", "meta.block.for.holo"] },
-        { text: "item", scopes: ["text.holo", "meta.block.for.holo", "variable.other.elixir"] },
+        {
+          text: "item",
+          scopes: ["text.holo", "meta.block.for.holo", "variable.other.elixir"],
+        },
         { text: " <- ", scopes: ["text.holo", "meta.block.for.holo"] },
-        { text: "@items", scopes: ["text.holo", "meta.block.for.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
+        {
+          text: "@items",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -582,9 +1687,30 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{/for}");
 
       const expected = [
-        { text: "{/", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
-        { text: "for", scopes: ["text.holo", "meta.block.for.holo", "keyword.control.for.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
+        {
+          text: "{/",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "for",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "keyword.control.for.holo",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.for.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -596,13 +1722,62 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("{%raw}{%if false}{@var}{/raw}");
 
       const expected = [
-        { text: "{%", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
-        { text: "raw", scopes: ["text.holo", "meta.block.raw.holo", "keyword.control.raw.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
-        { text: "{%if false}{@var}", scopes: ["text.holo", "meta.block.raw.holo", "string.unquoted.raw.holo"] },
-        { text: "{/", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
-        { text: "raw", scopes: ["text.holo", "meta.block.raw.holo", "keyword.control.raw.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.block.raw.holo", "punctuation.definition.keyword.holo"] },
+        {
+          text: "{%",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "raw",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "keyword.control.raw.holo",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "{%if false}{@var}",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "string.unquoted.raw.holo",
+          ],
+        },
+        {
+          text: "{/",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
+        {
+          text: "raw",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "keyword.control.raw.holo",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.block.raw.holo",
+            "punctuation.definition.keyword.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -614,13 +1789,58 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<script>var x = 1;</script>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
-        { text: "var x = 1;", scopes: ["text.holo", "meta.embedded.block.javascript.holo"] },
-        { text: "</", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "script",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: "var x = 1;",
+          scopes: ["text.holo", "meta.embedded.block.javascript.holo"],
+        },
+        {
+          text: "</",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "script",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -630,15 +1850,81 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<script>{@value}</script>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
-        { text: "{", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@value", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: "</", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "script",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: "{",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.begin.holo",
+          ],
+        },
+        {
+          text: "@value",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "meta.embedded.expression.holo",
+            "variable.other.attribute.elixir",
+          ],
+        },
+        {
+          text: "}",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "meta.embedded.expression.holo",
+            "punctuation.section.embedded.end.holo",
+          ],
+        },
+        {
+          text: "</",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "script",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.javascript.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -650,13 +1936,58 @@ describe("HOLO grammar", () => {
       const tokens = await tokenize("<style>body { color: red; }</style>");
 
       const expected = [
-        { text: "<", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "style", scopes: ["text.holo", "meta.embedded.block.css.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.end.holo"] },
-        { text: "body { color: red; }", scopes: ["text.holo", "meta.embedded.block.css.holo"] },
-        { text: "</", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "style", scopes: ["text.holo", "meta.embedded.block.css.holo", "entity.name.tag.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.end.holo"] },
+        {
+          text: "<",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.css.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "style",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.css.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.css.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
+        {
+          text: "body { color: red; }",
+          scopes: ["text.holo", "meta.embedded.block.css.holo"],
+        },
+        {
+          text: "</",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.css.holo",
+            "punctuation.definition.tag.begin.holo",
+          ],
+        },
+        {
+          text: "style",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.css.holo",
+            "entity.name.tag.holo",
+          ],
+        },
+        {
+          text: ">",
+          scopes: [
+            "text.holo",
+            "meta.embedded.block.css.holo",
+            "punctuation.definition.tag.end.holo",
+          ],
+        },
       ];
 
       assert.deepStrictEqual(tokens, expected);

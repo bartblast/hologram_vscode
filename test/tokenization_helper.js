@@ -1,17 +1,17 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const vsctm = require("vscode-textmate");
 const oniguruma = require("vscode-oniguruma");
 
 const wasmBin = fs.readFileSync(
-  path.join(__dirname, "../node_modules/vscode-oniguruma/release/onig.wasm")
+  path.join(__dirname, "../node_modules/vscode-oniguruma/release/onig.wasm"),
 );
 
 const grammars = {
   "text.holo": path.join(__dirname, "../syntaxes/holo.tmLanguage.json"),
   "text.holo.injection": path.join(
     __dirname,
-    "../syntaxes/holo_injection.tmLanguage.json"
+    "../syntaxes/holo_injection.tmLanguage.json",
   ),
   "source.elixir": path.join(__dirname, "grammars/elixir.tmLanguage.json"),
 };
@@ -30,11 +30,11 @@ async function getRegistry() {
     onigLib: vscodeOnigurumaLib,
     loadGrammar: async (scopeName) => {
       const grammarPath = grammars[scopeName];
-      
+
       if (!grammarPath || !fs.existsSync(grammarPath)) return null;
-      
+
       const content = fs.readFileSync(grammarPath, "utf-8");
-      
+
       return vsctm.parseRawGrammar(content, grammarPath);
     },
   });
