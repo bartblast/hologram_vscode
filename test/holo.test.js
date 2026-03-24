@@ -676,4 +676,40 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("embedded_javascript", () => {
+    it("basic script content", async () => {
+      const tokens = await tokenize("<script>var x = 1;</script>");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
+        { text: "var x = 1;", scopes: ["text.holo", "meta.embedded.block.javascript.holo"] },
+        { text: "</", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("expression inside script", async () => {
+      const tokens = await tokenize("<script>{@value}</script>");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "@value", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        { text: "</", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "script", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "entity.name.tag.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.embedded.block.javascript.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
