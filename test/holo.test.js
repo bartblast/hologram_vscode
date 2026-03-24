@@ -342,4 +342,44 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("expression_innards", () => {
+    it("one level of nesting (Elixir struct)", async () => {
+      const tokens = await tokenize("{%Version{major: 1}}");
+
+      const expected = [
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "%Version", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "major", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: ": ", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "1", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("two levels of nesting (nested maps)", async () => {
+      const tokens = await tokenize("{%{a: %{b: 1}}}");
+
+      const expected = [
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "%", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "a", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: ": %", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "b", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: ": ", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "1", scopes: ["text.holo", "meta.embedded.expression.holo", "constant.numeric.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
