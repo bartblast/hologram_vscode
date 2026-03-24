@@ -467,4 +467,37 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("component_tag_open", () => {
+    it("self-closing component", async () => {
+      const tokens = await tokenize("<MyComponent />");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
+        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("component with prop", async () => {
+      const tokens = await tokenize('<MyComponent prop="value">');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
+        { text: "prop", scopes: ["text.holo", "meta.tag.component.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.separator.key-value.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
+        { text: "value", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
