@@ -1,6 +1,7 @@
 {
   "scopeName": "text.holo",
   "patterns": [
+    { "include": "#doctype" },
     { "include": "#tag_open" },
     { "include": "#tag_close" }
   ],
@@ -49,6 +50,16 @@
         "0": { "name": "punctuation.definition.string.end.holo" }
       },
       "name": "string.quoted.double.holo"
+    },
+    "doctype": {
+      "match": "(<!)([Dd][Oo][Cc][Tt][Yy][Pp][Ee])\\s+([^>]*)(>)",
+      "captures": {
+        "1": { "name": "punctuation.definition.tag.begin.holo" },
+        "2": { "name": "entity.name.tag.doctype.holo" },
+        "3": { "name": "string.unquoted.holo" },
+        "4": { "name": "punctuation.definition.tag.end.holo" }
+      },
+      "name": "meta.tag.metadata.doctype.holo"
     },
     "attribute_equals": {
       "match": "=",

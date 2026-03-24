@@ -214,4 +214,20 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("doctype", () => {
+    it("standard HTML doctype", async () => {
+      const tokens = await tokenize("<!DOCTYPE html>");
+
+      const expected = [
+        { text: "<!", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "DOCTYPE", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "entity.name.tag.doctype.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.metadata.doctype.holo"] },
+        { text: "html", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "string.unquoted.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.metadata.doctype.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
