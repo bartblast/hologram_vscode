@@ -35,8 +35,20 @@
     "tag_innards": {
       "patterns": [
         { "include": "#attribute_name" },
-        { "include": "#attribute_equals" }
+        { "include": "#attribute_equals" },
+        { "include": "#attribute_value_double" }
       ]
+    },
+    "attribute_value_double": {
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.holo" }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.holo" }
+      },
+      "name": "string.quoted.double.holo"
     },
     "attribute_equals": {
       "match": "=",
