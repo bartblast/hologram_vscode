@@ -2,9 +2,26 @@
   "scopeName": "text.holo.injection",
   "injectionSelector": "L:source.elixir",
   "patterns": [
-    { "include": "#holo_sigil_heredoc" }
+    { "include": "#holo_sigil_heredoc" },
+    { "include": "#holo_sigil_inline" }
   ],
   "repository": {
+    "holo_sigil_inline": {
+      "begin": "(~HOLO)(\")",
+      "beginCaptures": {
+        "1": { "name": "keyword.operator.sigil.elixir" },
+        "2": { "name": "punctuation.definition.string.begin.elixir" }
+      },
+      "end": "(\")",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.elixir" }
+      },
+      "name": "meta.embedded.holo.elixir",
+      "contentName": "text.holo",
+      "patterns": [
+        { "include": "text.holo" }
+      ]
+    },
     "holo_sigil_heredoc": {
       "begin": "(~HOLO)(\"\"\")",
       "beginCaptures": {
