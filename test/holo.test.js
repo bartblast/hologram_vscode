@@ -514,4 +514,32 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("dotted component names", () => {
+    it("two-segment name", async () => {
+      const tokens = await tokenize("<Aaa.Bbb />");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "Aaa.Bbb", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
+        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("three-segment name", async () => {
+      const tokens = await tokenize("<Aaa.Bbb.Ccc />");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "Aaa.Bbb.Ccc", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
+        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
