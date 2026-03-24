@@ -6,6 +6,7 @@
     { "include": "#escape_sequence" },
     { "include": "#block_if_open" },
     { "include": "#block_if_close" },
+    { "include": "#block_else" },
     { "include": "#expression" },
     { "include": "#component_tag_open" },
     { "include": "#component_tag_close" },
@@ -62,6 +63,15 @@
       "patterns": [
         { "include": "#expression" }
       ]
+    },
+    "block_else": {
+      "match": "(\\{%)(else)(\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.keyword.holo" },
+        "2": { "name": "keyword.control.else.holo" },
+        "3": { "name": "punctuation.definition.keyword.holo" }
+      },
+      "name": "meta.block.else.holo"
     },
     "block_if_close": {
       "match": "(\\{/)(if)(\\})",

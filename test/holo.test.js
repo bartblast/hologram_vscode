@@ -612,4 +612,18 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("block_else", () => {
+    it("else block", async () => {
+      const tokens = await tokenize("{%else}");
+
+      const expected = [
+        { text: "{%", scopes: ["text.holo", "meta.block.else.holo", "punctuation.definition.keyword.holo"] },
+        { text: "else", scopes: ["text.holo", "meta.block.else.holo", "keyword.control.else.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.block.else.holo", "punctuation.definition.keyword.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
