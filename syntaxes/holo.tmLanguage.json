@@ -6,10 +6,10 @@
     { "include": "#escape_sequence" },
     { "include": "#block_raw" },
     { "include": "#block_if_open" },
-    { "include": "#block_if_close" },
+    { "include": "#block_if_end" },
     { "include": "#block_else" },
     { "include": "#block_for_open" },
-    { "include": "#block_for_close" },
+    { "include": "#block_for_end" },
     { "include": "#expression" },
     { "include": "#embedded_javascript" },
     { "include": "#embedded_css" },
@@ -51,11 +51,11 @@
         { "include": "#attribute_name_event" },
         { "include": "#attribute_name" },
         { "include": "#attribute_equals" },
-        { "include": "#attribute_value_double" },
+        { "include": "#attribute_value" },
         { "include": "#expression" }
       ]
     },
-    "attribute_value_double": {
+    "attribute_value": {
       "begin": "\"",
       "beginCaptures": {
         "0": { "name": "punctuation.definition.string.begin.holo" }
@@ -94,7 +94,7 @@
       },
       "name": "meta.block.else.holo"
     },
-    "block_for_close": {
+    "block_for_end": {
       "match": "(\\{/)(for)(\\})",
       "captures": {
         "1": { "name": "punctuation.definition.keyword.holo" },
@@ -118,7 +118,7 @@
         { "include": "source.elixir" }
       ]
     },
-    "block_if_close": {
+    "block_if_end": {
       "match": "(\\{/)(if)(\\})",
       "captures": {
         "1": { "name": "punctuation.definition.keyword.holo" },

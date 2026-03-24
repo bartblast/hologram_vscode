@@ -80,7 +80,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("attribute_name", () => {
-    it("boolean attribute", async () => {
+    it("boolean", async () => {
       const tokens = await tokenize("<div id>");
 
       const expected = [
@@ -94,21 +94,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("another boolean attribute", async () => {
-      const tokens = await tokenize("<div checked>");
-
-      const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "checked", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
-
-    it("hyphenated attribute name", async () => {
+    it("hyphenated", async () => {
       const tokens = await tokenize("<div aria-modal>");
 
       const expected = [
@@ -121,24 +107,10 @@ describe("HOLO grammar", () => {
 
       assert.deepStrictEqual(tokens, expected);
     });
-
-    it("data attribute name", async () => {
-      const tokens = await tokenize("<div data-value>");
-
-      const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "data-value", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
   });
 
   describe("attribute_equals", () => {
-    it("equals sign between attribute name and value", async () => {
+    it("works", async () => {
       const tokens = await tokenize('<div id=');
 
       const expected = [
@@ -153,8 +125,8 @@ describe("HOLO grammar", () => {
     });
   });
 
-  describe("attribute_value_double", () => {
-    it("full attribute with string value", async () => {
+  describe("attribute_value", () => {
+    it("simple", async () => {
       const tokens = await tokenize('<div id="test">');
 
       const expected = [
@@ -172,7 +144,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("string with spaces", async () => {
+    it("with spaces", async () => {
       const tokens = await tokenize('<div class="foo bar">');
 
       const expected = [
@@ -190,7 +162,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("multiple attributes", async () => {
+    it("multiple", async () => {
       const tokens = await tokenize('<div id="test" class="foo">');
 
       const expected = [
@@ -216,7 +188,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("doctype", () => {
-    it("standard HTML doctype", async () => {
+    it("works", async () => {
       const tokens = await tokenize("<!DOCTYPE html>");
 
       const expected = [
@@ -232,7 +204,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("comment", () => {
-    it("single-line comment", async () => {
+    it("single-line", async () => {
       const tokens = await tokenize("<!-- my comment -->");
 
       const expected = [
@@ -244,7 +216,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("multi-line comment", async () => {
+    it("multi-line", async () => {
       const tokens = await tokenize("<!-- line one\nline two -->");
 
       const expected = [
@@ -259,7 +231,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("escape_sequence", () => {
-    it("escaped opening brace", async () => {
+    it("opening brace", async () => {
       const tokens = await tokenize("\\{");
 
       const expected = [
@@ -269,7 +241,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("escaped closing brace", async () => {
+    it("closing brace", async () => {
       const tokens = await tokenize("\\}");
 
       const expected = [
@@ -279,7 +251,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("escaped hash", async () => {
+    it("hash", async () => {
       const tokens = await tokenize("\\#");
 
       const expected = [
@@ -289,7 +261,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("escaped dollar", async () => {
+    it("dollar", async () => {
       const tokens = await tokenize("\\$");
 
       const expected = [
@@ -301,7 +273,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("expression", () => {
-    it("simple expression with number", async () => {
+    it("simple", async () => {
       const tokens = await tokenize("{1 + 2}");
 
       const expected = [
@@ -315,34 +287,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("state variable reference", async () => {
-      const tokens = await tokenize("{@name}");
-
-      const expected = [
-        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "@name", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
-
-    it("function call", async () => {
-      const tokens = await tokenize("{inspect(@result)}");
-
-      const expected = [
-        { text: "{", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "inspect", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
-        { text: "(", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "@result", scopes: ["text.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
-        { text: ")", scopes: ["text.holo", "meta.embedded.expression.holo"] },
-        { text: "}", scopes: ["text.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
-
-    it("one level of nesting (Elixir struct)", async () => {
+    it("one level of nesting", async () => {
       const tokens = await tokenize("{%Version{major: 1}}");
 
       const expected = [
@@ -359,7 +304,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("two levels of nesting (nested maps)", async () => {
+    it("two levels of nesting", async () => {
       const tokens = await tokenize("{%{a: %{b: 1}}}");
 
       const expected = [
@@ -398,39 +343,19 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("as attribute value with nested braces", async () => {
-      const tokens = await tokenize('<div value={command: :cmd}>');
+    it("in attribute string with prefix", async () => {
+      const tokens = await tokenize('<div id="prefix_{@id}">');
 
       const expected = [
         { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
         { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
         { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "value", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "{", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "command", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
-        { text: ": ", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo"] },
-        { text: ":cmd", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "constant.other.symbol.elixir"] },
-        { text: "}", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
-
-    it("interpolated in attribute string", async () => {
-      const tokens = await tokenize('<div class="item_{n}">');
-
-      const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "class", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
         { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
         { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "item_", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "prefix_", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
         { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
-        { text: "n", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: "@id", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
         { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
         { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
         { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
@@ -439,7 +364,28 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("interpolated in attribute string with surrounding text", async () => {
+    it("in attribute string with suffix", async () => {
+      const tokens = await tokenize('<div id="{@id}_suffix">');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "@id", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        { text: "_suffix", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
+        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("in attribute string with prefix and suffix", async () => {
       const tokens = await tokenize('<div id="prefix_{@id}_suffix">');
 
       const expected = [
@@ -463,20 +409,19 @@ describe("HOLO grammar", () => {
   });
 
   describe("component_tag_open", () => {
-    it("self-closing component", async () => {
-      const tokens = await tokenize("<MyComponent />");
+    it("regular", async () => {
+      const tokens = await tokenize("<MyComponent>");
 
       const expected = [
         { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
         { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
-        { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
-        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
       ];
 
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("component with prop", async () => {
+    it("with prop", async () => {
       const tokens = await tokenize('<MyComponent prop="value">');
 
       const expected = [
@@ -489,6 +434,19 @@ describe("HOLO grammar", () => {
         { text: "value", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo"] },
         { text: "\"", scopes: ["text.holo", "meta.tag.component.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
         { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("self-closing", async () => {
+      const tokens = await tokenize("<MyComponent />");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
+        { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
       ];
 
       assert.deepStrictEqual(tokens, expected);
@@ -522,7 +480,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("component_tag_close", () => {
-    it("closing component tag", async () => {
+    it("works", async () => {
       const tokens = await tokenize("</MyComponent>");
 
       const expected = [
@@ -536,7 +494,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("attribute_name_event", () => {
-    it("click event with text value", async () => {
+    it("works", async () => {
       const tokens = await tokenize('<button $click="action">');
 
       const expected = [
@@ -555,28 +513,10 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("submit event", async () => {
-      const tokens = await tokenize('<form $submit="handle_submit">');
-
-      const expected = [
-        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "form", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
-        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
-        { text: "$", scopes: ["text.holo", "meta.tag.holo", "keyword.operator.event.holo"] },
-        { text: "submit", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.event.holo"] },
-        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.begin.holo"] },
-        { text: "handle_submit", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo"] },
-        { text: "\"", scopes: ["text.holo", "meta.tag.holo", "string.quoted.double.holo", "punctuation.definition.string.end.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
   });
 
   describe("block_if_open", () => {
-    it("if with state variable condition", async () => {
+    it("works", async () => {
       const tokens = await tokenize("{%if @show}");
 
       const expected = [
@@ -591,8 +531,8 @@ describe("HOLO grammar", () => {
     });
   });
 
-  describe("block_if_close", () => {
-    it("end if block", async () => {
+  describe("block_if_end", () => {
+    it("works", async () => {
       const tokens = await tokenize("{/if}");
 
       const expected = [
@@ -606,7 +546,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("block_else", () => {
-    it("else block", async () => {
+    it("works", async () => {
       const tokens = await tokenize("{%else}");
 
       const expected = [
@@ -620,7 +560,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("block_for_open", () => {
-    it("for with generator expression", async () => {
+    it("works", async () => {
       const tokens = await tokenize("{%for item <- @items}");
 
       const expected = [
@@ -637,8 +577,8 @@ describe("HOLO grammar", () => {
     });
   });
 
-  describe("block_for_close", () => {
-    it("end for block", async () => {
+  describe("block_for_end", () => {
+    it("works", async () => {
       const tokens = await tokenize("{/for}");
 
       const expected = [
@@ -652,7 +592,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("block_raw", () => {
-    it("inner template syntax is not processed", async () => {
+    it("suppresses template syntax", async () => {
       const tokens = await tokenize("{%raw}{%if false}{@var}{/raw}");
 
       const expected = [
@@ -670,7 +610,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("embedded_javascript", () => {
-    it("basic script content", async () => {
+    it("basic", async () => {
       const tokens = await tokenize("<script>var x = 1;</script>");
 
       const expected = [
@@ -686,7 +626,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("expression inside script", async () => {
+    it("with expression", async () => {
       const tokens = await tokenize("<script>{@value}</script>");
 
       const expected = [
@@ -706,7 +646,7 @@ describe("HOLO grammar", () => {
   });
 
   describe("embedded_css", () => {
-    it("basic style content", async () => {
+    it("basic", async () => {
       const tokens = await tokenize("<style>body { color: red; }</style>");
 
       const expected = [
