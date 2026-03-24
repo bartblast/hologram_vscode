@@ -136,4 +136,20 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("attribute_equals", () => {
+    it("equals sign between attribute name and value", async () => {
+      const tokens = await tokenize('<div id=');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "id", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
