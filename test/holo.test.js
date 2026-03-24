@@ -500,4 +500,18 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("component_tag_close", () => {
+    it("closing component tag", async () => {
+      const tokens = await tokenize("</MyComponent>");
+
+      const expected = [
+        { text: "</", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

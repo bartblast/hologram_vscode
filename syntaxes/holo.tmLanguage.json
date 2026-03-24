@@ -6,6 +6,7 @@
     { "include": "#escape_sequence" },
     { "include": "#expression" },
     { "include": "#component_tag_open" },
+    { "include": "#component_tag_close" },
     { "include": "#tag_open" },
     { "include": "#tag_close" }
   ],
@@ -58,6 +59,18 @@
       "patterns": [
         { "include": "#expression" }
       ]
+    },
+    "component_tag_close": {
+      "begin": "(</)([A-Z][a-zA-Z0-9]*(?:\\.[A-Z][a-zA-Z0-9]*)*)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.tag.begin.holo" },
+        "2": { "name": "entity.name.type.component.holo" }
+      },
+      "end": "(>)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.tag.end.holo" }
+      },
+      "name": "meta.tag.component.holo"
     },
     "component_tag_open": {
       "begin": "(<)([A-Z][a-zA-Z0-9]*(?:\\.[A-Z][a-zA-Z0-9]*)*)",
