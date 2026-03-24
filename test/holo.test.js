@@ -230,4 +230,31 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("comment", () => {
+    it("single-line comment", async () => {
+      const tokens = await tokenize("<!-- my comment -->");
+
+      const expected = [
+        { text: "<!--", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.begin.holo"] },
+        { text: " my comment ", scopes: ["text.holo", "comment.block.holo"] },
+        { text: "-->", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("multi-line comment", async () => {
+      const tokens = await tokenize("<!-- line one\nline two -->");
+
+      const expected = [
+        { text: "<!--", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.begin.holo"] },
+        { text: " line one", scopes: ["text.holo", "comment.block.holo"] },
+        { text: "line two ", scopes: ["text.holo", "comment.block.holo"] },
+        { text: "-->", scopes: ["text.holo", "comment.block.holo", "punctuation.definition.comment.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });
