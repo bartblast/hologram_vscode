@@ -4,6 +4,7 @@
     { "include": "#comment" },
     { "include": "#doctype" },
     { "include": "#escape_sequence" },
+    { "include": "#block_if_open" },
     { "include": "#expression" },
     { "include": "#component_tag_open" },
     { "include": "#component_tag_close" },
@@ -59,6 +60,21 @@
       "name": "string.quoted.double.holo",
       "patterns": [
         { "include": "#expression" }
+      ]
+    },
+    "block_if_open": {
+      "begin": "(\\{%)(if)\\b",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.keyword.holo" },
+        "2": { "name": "keyword.control.if.holo" }
+      },
+      "end": "(\\})",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.keyword.holo" }
+      },
+      "name": "meta.block.if.holo",
+      "patterns": [
+        { "include": "source.elixir" }
       ]
     },
     "component_tag_close": {
