@@ -382,4 +382,44 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("expression in attribute value", () => {
+    it("expression as attribute value", async () => {
+      const tokens = await tokenize('<div value={@text}>');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "value", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "@text", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "variable.other.attribute.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("expression with nested braces in attribute", async () => {
+      const tokens = await tokenize('<div value={command: :cmd}>');
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "div", scopes: ["text.holo", "meta.tag.holo", "entity.name.tag.holo"] },
+        { text: " ", scopes: ["text.holo", "meta.tag.holo"] },
+        { text: "value", scopes: ["text.holo", "meta.tag.holo", "entity.other.attribute-name.holo"] },
+        { text: "=", scopes: ["text.holo", "meta.tag.holo", "punctuation.separator.key-value.holo"] },
+        { text: "{", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.begin.holo"] },
+        { text: "command", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "variable.other.elixir"] },
+        { text: ": ", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo"] },
+        { text: ":cmd", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "constant.other.symbol.elixir"] },
+        { text: "}", scopes: ["text.holo", "meta.tag.holo", "meta.embedded.expression.holo", "punctuation.section.embedded.end.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

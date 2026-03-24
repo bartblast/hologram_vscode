@@ -40,7 +40,8 @@
       "patterns": [
         { "include": "#attribute_name" },
         { "include": "#attribute_equals" },
-        { "include": "#attribute_value_double" }
+        { "include": "#attribute_value_double" },
+        { "include": "#expression" }
       ]
     },
     "attribute_value_double": {

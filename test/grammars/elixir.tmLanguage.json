@@ -1,11 +1,16 @@
 {
   "scopeName": "source.elixir",
   "patterns": [
+    { "include": "#atom" },
     { "include": "#module_attribute" },
     { "include": "#number" },
     { "include": "#identifier" }
   ],
   "repository": {
+    "atom": {
+      "match": ":[a-zA-Z_][a-zA-Z0-9_]*[!?]?",
+      "name": "constant.other.symbol.elixir"
+    },
     "module_attribute": {
       "match": "@[a-zA-Z_][a-zA-Z0-9_]*",
       "name": "variable.other.attribute.elixir"
