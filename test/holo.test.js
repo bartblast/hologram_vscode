@@ -341,9 +341,7 @@ describe("HOLO grammar", () => {
 
       assert.deepStrictEqual(tokens, expected);
     });
-  });
 
-  describe("expression_innards", () => {
     it("one level of nesting (Elixir struct)", async () => {
       const tokens = await tokenize("{%Version{major: 1}}");
 
@@ -381,10 +379,8 @@ describe("HOLO grammar", () => {
 
       assert.deepStrictEqual(tokens, expected);
     });
-  });
 
-  describe("expression in attribute value", () => {
-    it("expression as attribute value", async () => {
+    it("as attribute value", async () => {
       const tokens = await tokenize('<div value={@text}>');
 
       const expected = [
@@ -402,7 +398,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("expression with nested braces in attribute", async () => {
+    it("as attribute value with nested braces", async () => {
       const tokens = await tokenize('<div value={command: :cmd}>');
 
       const expected = [
@@ -421,10 +417,8 @@ describe("HOLO grammar", () => {
 
       assert.deepStrictEqual(tokens, expected);
     });
-  });
 
-  describe("expression in attribute string", () => {
-    it("expression inside quoted attribute", async () => {
+    it("interpolated in attribute string", async () => {
       const tokens = await tokenize('<div class="item_{n}">');
 
       const expected = [
@@ -445,7 +439,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("expression with surrounding text", async () => {
+    it("interpolated in attribute string with surrounding text", async () => {
       const tokens = await tokenize('<div id="prefix_{@id}_suffix">');
 
       const expected = [
@@ -499,24 +493,8 @@ describe("HOLO grammar", () => {
 
       assert.deepStrictEqual(tokens, expected);
     });
-  });
 
-  describe("component_tag_close", () => {
-    it("closing component tag", async () => {
-      const tokens = await tokenize("</MyComponent>");
-
-      const expected = [
-        { text: "</", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
-        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
-        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
-      ];
-
-      assert.deepStrictEqual(tokens, expected);
-    });
-  });
-
-  describe("dotted component names", () => {
-    it("two-segment name", async () => {
+    it("dotted name with two segments", async () => {
       const tokens = await tokenize("<Aaa.Bbb />");
 
       const expected = [
@@ -529,7 +507,7 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
 
-    it("three-segment name", async () => {
+    it("dotted name with three segments", async () => {
       const tokens = await tokenize("<Aaa.Bbb.Ccc />");
 
       const expected = [
@@ -537,6 +515,20 @@ describe("HOLO grammar", () => {
         { text: "Aaa.Bbb.Ccc", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
         { text: " ", scopes: ["text.holo", "meta.tag.component.holo"] },
         { text: "/>", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
+
+  describe("component_tag_close", () => {
+    it("closing component tag", async () => {
+      const tokens = await tokenize("</MyComponent>");
+
+      const expected = [
+        { text: "</", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "MyComponent", scopes: ["text.holo", "meta.tag.component.holo", "entity.name.type.component.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.tag.component.holo", "punctuation.definition.tag.end.holo"] },
       ];
 
       assert.deepStrictEqual(tokens, expected);
