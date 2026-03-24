@@ -644,4 +644,18 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("block_for_close", () => {
+    it("end for block", async () => {
+      const tokens = await tokenize("{/for}");
+
+      const expected = [
+        { text: "{/", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
+        { text: "for", scopes: ["text.holo", "meta.block.for.holo", "keyword.control.for.holo"] },
+        { text: "}", scopes: ["text.holo", "meta.block.for.holo", "punctuation.definition.keyword.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

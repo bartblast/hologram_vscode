@@ -8,6 +8,7 @@
     { "include": "#block_if_close" },
     { "include": "#block_else" },
     { "include": "#block_for_open" },
+    { "include": "#block_for_close" },
     { "include": "#expression" },
     { "include": "#component_tag_open" },
     { "include": "#component_tag_close" },
@@ -73,6 +74,15 @@
         "3": { "name": "punctuation.definition.keyword.holo" }
       },
       "name": "meta.block.else.holo"
+    },
+    "block_for_close": {
+      "match": "(\\{/)(for)(\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.keyword.holo" },
+        "2": { "name": "keyword.control.for.holo" },
+        "3": { "name": "punctuation.definition.keyword.holo" }
+      },
+      "name": "meta.block.for.holo"
     },
     "block_for_open": {
       "begin": "(\\{%)(for)\\b",
