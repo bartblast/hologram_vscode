@@ -712,4 +712,22 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("embedded_css", () => {
+    it("basic style content", async () => {
+      const tokens = await tokenize("<style>body { color: red; }</style>");
+
+      const expected = [
+        { text: "<", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "style", scopes: ["text.holo", "meta.embedded.block.css.holo", "entity.name.tag.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.end.holo"] },
+        { text: "body { color: red; }", scopes: ["text.holo", "meta.embedded.block.css.holo"] },
+        { text: "</", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.begin.holo"] },
+        { text: "style", scopes: ["text.holo", "meta.embedded.block.css.holo", "entity.name.tag.holo"] },
+        { text: ">", scopes: ["text.holo", "meta.embedded.block.css.holo", "punctuation.definition.tag.end.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

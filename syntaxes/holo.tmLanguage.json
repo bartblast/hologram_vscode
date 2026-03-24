@@ -12,6 +12,7 @@
     { "include": "#block_for_close" },
     { "include": "#expression" },
     { "include": "#embedded_javascript" },
+    { "include": "#embedded_css" },
     { "include": "#component_tag_open" },
     { "include": "#component_tag_close" },
     { "include": "#tag_open" },
@@ -207,6 +208,25 @@
       "patterns": [
         { "include": "#expression_innards" },
         { "include": "source.elixir" }
+      ]
+    },
+    "embedded_css": {
+      "begin": "(<)(style)\\b([^>]*)(>)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.tag.begin.holo" },
+        "2": { "name": "entity.name.tag.holo" },
+        "3": { "patterns": [{ "include": "#tag_innards" }] },
+        "4": { "name": "punctuation.definition.tag.end.holo" }
+      },
+      "end": "(</)(style)\\s*(>)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.tag.begin.holo" },
+        "2": { "name": "entity.name.tag.holo" },
+        "3": { "name": "punctuation.definition.tag.end.holo" }
+      },
+      "name": "meta.embedded.block.css.holo",
+      "patterns": [
+        { "include": "#block_raw" }
       ]
     },
     "embedded_javascript": {
