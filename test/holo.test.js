@@ -257,4 +257,46 @@ describe("HOLO grammar", () => {
       assert.deepStrictEqual(tokens, expected);
     });
   });
+
+  describe("escape_sequence", () => {
+    it("escaped opening brace", async () => {
+      const tokens = await tokenize("\\{");
+
+      const expected = [
+        { text: "\\{", scopes: ["text.holo", "constant.character.escape.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("escaped closing brace", async () => {
+      const tokens = await tokenize("\\}");
+
+      const expected = [
+        { text: "\\}", scopes: ["text.holo", "constant.character.escape.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("escaped hash", async () => {
+      const tokens = await tokenize("\\#");
+
+      const expected = [
+        { text: "\\#", scopes: ["text.holo", "constant.character.escape.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+
+    it("escaped dollar", async () => {
+      const tokens = await tokenize("\\$");
+
+      const expected = [
+        { text: "\\$", scopes: ["text.holo", "constant.character.escape.holo"] },
+      ];
+
+      assert.deepStrictEqual(tokens, expected);
+    });
+  });
 });

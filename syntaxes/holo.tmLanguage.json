@@ -3,6 +3,7 @@
   "patterns": [
     { "include": "#comment" },
     { "include": "#doctype" },
+    { "include": "#escape_sequence" },
     { "include": "#tag_open" },
     { "include": "#tag_close" }
   ],
@@ -62,6 +63,10 @@
         "0": { "name": "punctuation.definition.comment.end.holo" }
       },
       "name": "comment.block.holo"
+    },
+    "escape_sequence": {
+      "match": "\\\\[{}#$]",
+      "name": "constant.character.escape.holo"
     },
     "doctype": {
       "match": "(<!)([Dd][Oo][Cc][Tt][Yy][Pp][Ee])\\s+([^>]*)(>)",
