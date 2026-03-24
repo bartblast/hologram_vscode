@@ -29,16 +29,22 @@ async function getRegistry() {
 
   registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
+
     loadGrammar: async (scopeName) => {
       const grammarPath = grammars[scopeName];
+
       if (!grammarPath || !fs.existsSync(grammarPath)) return null;
+
       const content = fs.readFileSync(grammarPath, "utf-8");
+
       return vsctm.parseRawGrammar(content, grammarPath);
     },
+
     getInjections: (scopeName) => {
       if (scopeName === "source.elixir") {
         return ["text.holo.injection"];
       }
+
       return [];
     },
   });
@@ -69,7 +75,7 @@ async function tokenize(input) {
 
 describe("HOLO injection grammar", () => {
   describe("holo_sigil_heredoc", () => {
-    it("heredoc with template content", async () => {
+    it("works", async () => {
       const tokens = await tokenize('~HOLO"""\n<div>{@name}</div>\n"""');
 
       const expected = [
@@ -194,7 +200,7 @@ describe("HOLO injection grammar", () => {
   });
 
   describe("holo_sigil_inline", () => {
-    it("inline form with template content", async () => {
+    it("works", async () => {
       const tokens = await tokenize('~HOLO"<div>content</div>"');
 
       const expected = [
