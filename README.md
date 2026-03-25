@@ -11,11 +11,11 @@ Full syntax highlighting for the HOLO template language in:
 
 ## Requirements
 
-- An Elixir VS Code extension is needed for Elixir highlighting inside expressions and `~HOLO` sigils, e.g. [Expert LSP](https://marketplace.visualstudio.com/items?itemName=ExpertLSP.expert) or [ElixirLS](https://marketplace.visualstudio.com/items?itemName=JakeBecker.elixir-ls).
+- An Elixir VS Code extension is recommended for full Elixir highlighting inside templates, e.g. [Expert LSP](https://marketplace.visualstudio.com/items?itemName=ExpertLSP.expert) or [ElixirLS](https://marketplace.visualstudio.com/items?itemName=JakeBecker.elixir-ls).
 
 ## Contributing
 
-Feature requests and pull requests are welcome. Please open an issue first to discuss the proposed change. Once approved, create a granular PR focused on a single feature or fix.
+Feature requests and bug reports are welcome - please open an issue. Pull requests are also welcome, but please open an issue first to discuss the proposed change. Once approved, create a granular PR focused on a single feature or fix.
 
 ## Links
 
