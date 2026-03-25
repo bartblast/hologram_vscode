@@ -16,6 +16,10 @@ const grammars = {
   "source.elixir": path.join(__dirname, "grammars/elixir.tmLanguage.json"),
 };
 
+const injections = {
+  "source.elixir": ["text.holo.injection"],
+};
+
 let registry;
 
 async function getRegistry() {
@@ -28,6 +32,7 @@ async function getRegistry() {
 
   registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
+
     loadGrammar: async (scopeName) => {
       const grammarPath = grammars[scopeName];
 
@@ -37,14 +42,16 @@ async function getRegistry() {
 
       return vsctm.parseRawGrammar(content, grammarPath);
     },
+
+    getInjections: (scopeName) => injections[scopeName] || [],
   });
 
   return registry;
 }
 
-async function tokenize(input) {
+async function tokenize(input, scopeName = "text.holo") {
   const reg = await getRegistry();
-  const grammar = await reg.loadGrammar("text.holo");
+  const grammar = await reg.loadGrammar(scopeName);
   const lines = input.split("\n");
   const tokens = [];
   let ruleStack = vsctm.INITIAL;

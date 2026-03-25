@@ -1,82 +1,13 @@
 const assert = require("node:assert");
-const fs = require("node:fs");
-const path = require("node:path");
-const vsctm = require("vscode-textmate");
-const oniguruma = require("vscode-oniguruma");
-
-const wasmBin = fs.readFileSync(
-  path.join(__dirname, "../node_modules/vscode-oniguruma/release/onig.wasm"),
-);
-
-const grammars = {
-  "text.holo": path.join(__dirname, "../syntaxes/holo.tmLanguage.json"),
-  "text.holo.injection": path.join(
-    __dirname,
-    "../syntaxes/holo_injection.tmLanguage.json",
-  ),
-  "source.elixir": path.join(__dirname, "grammars/elixir.tmLanguage.json"),
-};
-
-let registry;
-
-async function getRegistry() {
-  if (registry) return registry;
-
-  const vscodeOnigurumaLib = oniguruma.loadWASM({ data: wasmBin }).then(() => ({
-    createOnigScanner: (patterns) => new oniguruma.OnigScanner(patterns),
-    createOnigString: (s) => new oniguruma.OnigString(s),
-  }));
-
-  registry = new vsctm.Registry({
-    onigLib: vscodeOnigurumaLib,
-
-    loadGrammar: async (scopeName) => {
-      const grammarPath = grammars[scopeName];
-
-      if (!grammarPath || !fs.existsSync(grammarPath)) return null;
-
-      const content = fs.readFileSync(grammarPath, "utf-8");
-
-      return vsctm.parseRawGrammar(content, grammarPath);
-    },
-
-    getInjections: (scopeName) => {
-      if (scopeName === "source.elixir") {
-        return ["text.holo.injection"];
-      }
-
-      return [];
-    },
-  });
-
-  return registry;
-}
-
-async function tokenize(input) {
-  const reg = await getRegistry();
-  const grammar = await reg.loadGrammar("source.elixir");
-  const lines = input.split("\n");
-  const tokens = [];
-  let ruleStack = vsctm.INITIAL;
-
-  for (const line of lines) {
-    const result = grammar.tokenizeLine(line, ruleStack);
-
-    for (const token of result.tokens) {
-      const text = line.substring(token.startIndex, token.endIndex);
-      tokens.push({ text, scopes: token.scopes });
-    }
-
-    ruleStack = result.ruleStack;
-  }
-
-  return tokens;
-}
+const { tokenize } = require("./tokenization_helper");
 
 describe("HOLO injection grammar", () => {
   describe("holo_sigil_heredoc", () => {
     it("works", async () => {
-      const tokens = await tokenize('~HOLO"""\n<div>{@name}</div>\n"""');
+      const tokens = await tokenize(
+        '~HOLO"""\n<div>{@name}</div>\n"""',
+        "source.elixir",
+      );
 
       const expected = [
         {
@@ -201,7 +132,10 @@ describe("HOLO injection grammar", () => {
 
   describe("holo_sigil_inline", () => {
     it("works", async () => {
-      const tokens = await tokenize('~HOLO"<div>content</div>"');
+      const tokens = await tokenize(
+        '~HOLO"<div>content</div>"',
+        "source.elixir",
+      );
 
       const expected = [
         {
