@@ -2,7 +2,7 @@
   "name": "hologram",
   "displayName": "Hologram",
   "description": "Official Hologram framework support for VS Code",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "icon": "icon.png",
   "publisher": "bartblast",
   "repository": {
