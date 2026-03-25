@@ -1,5 +1,7 @@
 # Hologram VS Code Extension
 
+![Hologram VS Code Extension](vscode_extension_released.png)
+
 Official [Hologram](https://hologram.page) framework support for VS Code.
 
 ## Features
