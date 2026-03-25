@@ -1,0 +1,24 @@
+# Hologram VS Code Extension
+
+Official [Hologram](https://hologram.page) framework support for VS Code.
+
+## Features
+
+Full syntax highlighting for the HOLO template language in:
+
+- `~HOLO` sigils - inline templates in `.ex` Elixir files
+- `.holo` files - standalone template files
+
+## Requirements
+
+- An Elixir VS Code extension is needed for Elixir highlighting inside expressions and `~HOLO` sigils, e.g. [Expert LSP](https://marketplace.visualstudio.com/items?itemName=ExpertLSP.expert) or [ElixirLS](https://marketplace.visualstudio.com/items?itemName=JakeBecker.elixir-ls).
+
+## Contributing
+
+Feature requests and pull requests are welcome. Please open an issue first to discuss the proposed change. Once approved, create a granular PR focused on a single feature or fix.
+
+## Links
+
+- [Hologram website](https://hologram.page)
+- [Hologram GitHub](https://github.com/bartblast/hologram)
+- [Template syntax documentation](https://hologram.page/docs/template-syntax)
